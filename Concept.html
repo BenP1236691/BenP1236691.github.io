@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Read the Concept — Shared Resources for Training AI (Bounty)</title>
+  <meta name="description" content="Concept note for a community bounty platform that rewards high-impact AI training resources: datasets, evals, labeling, and compute." />
+  <style>
+    :root{
+      --bg: #0f172a; /* slate-900 */
+      --card: #111827ee; /* gray-900 */
+      --text: #e5e7eb; /* gray-200 */
+      --muted: #9ca3af; /* gray-400 */
+      --accent: #22c55e; /* green-500 */
+      --accent2: #06b6d4; /* cyan-500 */
+      --ring: #ffffff22;
+      --link: #7dd3fc; /* sky-300 */
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f8fafc; --card:#ffffffee; --text:#0f172a; --muted:#334155; --ring:#00000014; --link:#0369a1; }
+    }
+    *{box-sizing:border-box}
+    body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text); }
+    header{
+      background: radial-gradient(1200px 800px at 80% -10%, #22c55e22, transparent 60%),
+                  radial-gradient(900px 700px at -10% 110%, #06b6d422, transparent 60%),
+                  var(--bg);
+      border-bottom:1px solid var(--ring);
+    }
+    .wrap{ max-width:960px; margin:0 auto; padding:1.25rem; }
+    .hero{ padding:2rem 0 1rem; }
+    .title{ font-size:clamp(1.6rem, 2.2vw + 1rem, 2.4rem); margin:0 0 .6rem; }
+    .sub{ color:var(--muted); margin:0 0 1rem; }
+    nav.breadcrumb{ font-size:.9rem; margin:.4rem 0 0; }
+    nav.breadcrumb a{ color:var(--link); text-decoration:none }
+    nav.breadcrumb a:hover{ text-decoration:underline }
+
+    main{ background:var(--bg); }
+    .grid{ display:grid; grid-template-columns: 260px 1fr; gap:1.25rem; }
+    @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
+
+    .toc{ position:sticky; top:0; align-self:start; background:var(--card); border:1px solid var(--ring); border-radius:14px; padding:1rem; }
+    .toc h3{ margin:.2rem 0 .6rem; font-size:1rem }
+    .toc a{ display:block; padding:.35rem .25rem; color:var(--link); text-decoration:none; border-radius:8px }
+    .toc a:hover{ background:#ffffff10 }
+
+    .card{ background:var(--card); border:1px solid var(--ring); border-radius:14px; padding:1.2rem 1.2rem; margin-bottom:1rem }
+    h2{ margin:0 0 .4rem; font-size:1.3rem }
+    p{ color:var(--muted); line-height:1.7; margin:.5rem 0 }
+    ul{ color:var(--muted); margin:.4rem 0 .8rem 1.1rem }
+    li{ margin:.3rem 0 }
+    code{ background:#00000026; padding:.15rem .35rem; border-radius:6px }
+    .cta-row{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.6rem }
+    .btn{ display:inline-block; text-decoration:none; color:var(--text); border:1px solid var(--ring); padding:.6rem .9rem; border-radius:10px; background:#ffffff08 }
+    .btn.primary{ background: linear-gradient(90deg, var(--accent), var(--accent2)); border:none; color:#07120b; font-weight:700 }
+    footer{ color:var(--muted); border-top:1px solid var(--ring); padding:1rem 0; margin-top:2rem; font-size:.9rem }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <nav class="breadcrumb">⟵ <a href="index.html">Back to WIP page</a></nav>
+      <h1 class="title">Read the Concept</h1>
+      <p class="sub">A community bounty model to fund high-impact AI training resources — datasets, evals, labeling, and compute — with transparent metrics and payouts.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:your-email@example.com?subject=Concept%20Feedback">Send Feedback</a>
+        <a class="btn" href="#how-it-works">Skip to How it Works</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap grid">
+      <aside class="toc" aria-label="Table of contents">
+        <h3>On this page</h3>
+        <a href="#overview">Overview</a>
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="#bounties">Bounty Design</a>
+        <a href="#governance">Governance</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </aside>
+
+      <section>
+        <article id="overview" class="card">
+          <h2>Overview</h2>
+          <p>
+            We’re building a shared infrastructure for <strong>training resources</strong>: data, evals, labeling, and compute.
+            Model builders post needs with a budget; contributors submit resources with documentation and licenses;
+            measurable improvements trigger <strong>bounty payouts</strong>. Public rules, reproducible pipelines, and auditable logs keep it fair.
+          </p>
+        </article>
+
+        <article id="problem" class="card">
+          <h2>Problem</h2>
+          <ul>
+            <li>High-quality resources are siloed, expensive, or locked behind NDAs.</li>
+            <li>Teams reinvent datasets and evals instead of reusing and improving them.</li>
+            <li>Incentives favor hype over measurable, reproducible gains.</li>
+          </ul>
+        </article>
+
+        <article id="solution" class="card">
+          <h2>Solution</h2>
+          <p>
+            A community marketplace with <em>clear specs, quality gates, and impact-based payouts</em>.
+            Contributors get credit and rewards when their work moves the needle; requesters get vetted, documented resources that are easy to integrate.
+          </p>
+          <ul>
+            <li><strong>Open specs:</strong> schemas, data cards, and licensing guidance.</li>
+            <li><strong>Quality gates:</strong> provenance, documentation, deduplication, privacy/ethics checks.</li>
+            <li><strong>Impact:</strong> before/after metrics on public eval suites, with reproducible scripts.</li>
+          </ul>
+        </article>
+
+        <article id="how-it-works" class="card">
+          <h2>How it Works</h2>
+          <ol>
+            <li><strong>Post a bounty:</strong> Scope, budget, deadline, quality gates, target metric, license.</li>
+            <li><strong>Contribute:</strong> Submit dataset/eval/labels/compute + docs. Early sample encouraged.</li>
+            <li><strong>Evaluate:</strong> Run standardized pipeline; compare metrics; check regressions and data health.</li>
+            <li><strong>Payout + attribution:</strong> Fixed, tiered, or leaderboard rewards. Public credit optional/pseudonymous.</li>
+          </ol>
+          <div class="cta-row"><a class="btn" href="#bounties">See Bounty Design</a></div>
+        </article>
+
+        <article id="bounties" class="card">
+          <h2>Bounty Design</h2>
+          <p>Each bounty includes:</p>
+          <ul>
+            <li><strong>Scope</strong> (resource type, domain, size, format)</li>
+            <li><strong>Quality gates</strong> (schema, docs, provenance, licensing, privacy, ethics)</li>
+            <li><strong>Impact metric</strong> (benchmarks + required delta, e.g., <code>+2.0 F1</code> without regressions)</li>
+            <li><strong>Payout rules</strong> (fixed/tiered/leaderboard; escrowed funds; review SLA)</li>
+            <li><strong>Licensing</strong> (CC-BY/SA, OpenRAIL, dual-license options)</li>
+          </ul>
+          <p><em>Anti-gaming</em>: deduplication, hidden holdouts, hash checks, red-team reviews, poisoning detection.</p>
+        </article>
+
+        <article id="governance" class="card">
+          <h2>Governance</h2>
+          <ul>
+            <li><strong>Public ledger</strong> of bounties, submissions, decisions, and payouts.</li>
+            <li><strong>Reproducibility</strong>: containerized evals (Docker), seeds, and scripts published.</li>
+            <li><strong>Appeals</strong>: one-round appeal judged by a rotating panel.</li>
+            <li><strong>Attribution</strong>: contributor name/org/pseudonym; optional anonymity.</li>
+          </ul>
+        </article>
+
+        <article id="roadmap" class="card">
+          <h2>Roadmap</h2>
+          <ul>
+            <li><strong>Phase 1</strong>: Specs, sample bounties, manual review pipeline.</li>
+            <li><strong>Phase 2</strong>: Self-serve posting, submission portal, basic analytics.</li>
+            <li><strong>Phase 3</strong>: Automated eval runners, dedup scanning, public dashboards.</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn primary" href="mailto:your-email@example.com?subject=Pilot%20Bounty%20Proposal">Propose a Pilot Bounty</a>
+            <a class="btn" href="#faq">Read FAQ</a>
+          </div>
+        </article>
+
+        <article id="faq" class="card">
+          <h2>FAQ</h2>
+          <p><strong>Is this open source?</strong> Core specs and sample pipelines will be public; platform code TBD.</p>
+          <p><strong>Can I use sensitive data?</strong> Only with explicit consent, compliant licenses, and privacy safeguards. Otherwise, no PII.</p>
+          <p><strong>How do you prevent overfitting?</strong> Hidden holdouts, periodic benchmark refreshes, and cross-bench validation.</p>
+          <p><strong>Who funds the bounties?</strong> Requesting teams, grants, and sponsors. Funds are escrowed on posting.</p>
+        </article>
+
+        <article id="contact" class="card">
+          <h2>Contact</h2>
+          <p>Want to collaborate or sponsor a bounty? We’d love to chat.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="mailto:your-email@example.com?subject=Concept%20Feedback">Email Us</a>
+            <a class="btn" href="index.html">Back to WIP</a>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small>© <span id="year"></span> Your Org • Concept note</small>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
