@@ -1,57 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Submit a Suggestion</title>
   <style>
-    :root {
-      --bg: #0f172a; --text: #e5e7eb; --muted: #9ca3af;
-      --card: #111827; --accent: #22c55e; --ring: #ffffff22;
-    }
-    body {
-      margin: 0; background: var(--bg); color: var(--text);
-      font-family: ui-sans-serif, system-ui;
-    }
-    main { max-width: 900px; margin: 2rem auto; padding: 1rem; }
-    .card {
-      background: var(--card); border: 1px solid var(--ring);
-      border-radius: 14px; padding: 1rem 1.2rem;
-    }
-    h1 { margin: .2rem 0 1rem; }
-    label { display: block; margin: .7rem 0 .2rem; }
-    input, textarea, select {
-      width: 100%; padding: .7rem; border-radius: 8px;
-      border: 1px solid var(--ring); background: #0b1222;
-      color: var(--text);
-    }
-    button {
-      background: var(--accent); border: none; color: #06240f;
-      padding: .7rem 1rem; border-radius: 10px;
-      font-weight: 700; cursor: pointer;
-    }
-    .row { display: flex; gap: .7rem; flex-wrap: wrap; align-items: center; }
-    .hint { color: var(--muted); font-size: .9rem; margin: .4rem 0 0; }
-    .ok { color: #86efac; }
-    .err { color: #fca5a5; }
-    .badge {
-      padding: .2rem .5rem; border-radius: 999px;
-      border: 1px solid #ffffff33; font-size: .8rem; color: var(--muted);
-    }
-    .pill {
-      display: inline-block; padding: .2rem .6rem; border: 1px solid var(--ring);
-      border-radius: 999px; margin-left: .4rem;
-    }
-    .hidden {
-      position: absolute !important; left: -9999px !important;
-      opacity: 0 !important; height: 0 !important; width: 0 !important;
-    }
+    :root { --bg:#0f172a; --text:#e5e7eb; --muted:#9ca3af; --card:#111827; --accent:#22c55e; --ring:#ffffff22; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:ui-sans-serif,system-ui; }
+    main { max-width:900px; margin:2rem auto; padding:1rem; }
+    .card { background:var(--card); border:1px solid var(--ring); border-radius:14px; padding:1rem 1.2rem; }
+    h1 { margin:.2rem 0 1rem; }
+    label { display:block; margin:.7rem 0 .2rem; }
+    input,textarea,select { width:100%; padding:.7rem; border-radius:8px; border:1px solid var(--ring); background:#0b1222; color:var(--text); }
+    button { background:var(--accent); border:none; color:#06240f; padding:.7rem 1rem; border-radius:10px; font-weight:700; cursor:pointer; }
+    .row { display:flex; gap:.7rem; flex-wrap:wrap; align-items:center; }
+    .hint { color:var(--muted); font-size:.9rem; margin:.4rem 0 0; }
+    .ok { color:#86efac; } .err { color:#fca5a5; }
+    .badge { padding:.2rem .5rem; border-radius:999px; border:1px solid #ffffff33; font-size:.8rem; color:var(--muted); }
+    .pill { display:inline-block; padding:.2rem .6rem; border:1px solid var(--ring); border-radius:999px; margin-left:.4rem; }
+    .hidden { position:absolute !important; left:-9999px !important; opacity:0 !important; height:0 !important; width:0 !important; }
   </style>
 </head>
 <body>
 <main>
   <h1>Share a Suggestion <span class="pill" id="cdPill">No cooldown</span></h1>
-  <p class="badge">Suggestions are relayed via our secure API.</p>
+  <p class="badge">Suggestions are relayed via our API.</p>
 
   <div class="card" aria-live="polite">
     <form id="sForm" autocomplete="off">
@@ -62,8 +34,7 @@
       </div>
 
       <label for="title">Title *</label>
-      <input id="title" name="title" required minlength="4" maxlength="240"
-             placeholder="e.g., Add an eval leaderboard">
+      <input id="title" name="title" required minlength="4" maxlength="240" placeholder="e.g., Add an eval leaderboard">
 
       <label for="category">Category</label>
       <select id="category" name="category">
@@ -82,13 +53,11 @@
       <div class="row">
         <div style="flex:1">
           <label for="email">Email (optional)</label>
-          <input id="email" name="email" type="email" maxlength="200"
-                 placeholder="you@example.com">
+          <input id="email" name="email" type="email" maxlength="200" placeholder="you@example.com">
         </div>
         <div style="flex:1">
-          <label for="bounty">Suggested Category Bounty (optional)</label>
-          <input id="bounty" name="bounty" type="number" min="0" step="1"
-                 placeholder="e.g., 2000">
+          <label for="bounty">Suggested Bounty (optional)</label>
+          <input id="bounty" name="bounty" type="number" min="0" step="1" placeholder="e.g., 2000">
         </div>
       </div>
 
@@ -101,7 +70,29 @@
 </main>
 
 <script>
-const API_URL = "https://ai-bounty-suggest.aipool.workers.dev"; // change to your Worker URL
+const API_URL = "https://ai-bounty-suggest.aipool.workers.dev"; // your worker
+const CD_KEY = 'sugg_cd_until_v1';
+const CD_MS  = 10 * 60 * 1000; // 10 minutes
+
+const cdPill = document.getElementById('cdPill');
+const submitBtn = document.getElementById('submitBtn');
+
+function updateCooldownUI(){
+  const until = Number(localStorage.getItem(CD_KEY) || 0);
+  const now = Date.now();
+  if (until > now){
+    const secs = Math.max(0, Math.floor((until - now) / 1000));
+    const m = String(Math.floor(secs/60)).padStart(2,'0');
+    const s = String(secs%60).padStart(2,'0');
+    submitBtn.disabled = true;
+    cdPill.textContent = `Cooldown ${m}:${s}`;
+  }else{
+    submitBtn.disabled = false;
+    cdPill.textContent = 'No cooldown';
+  }
+}
+setInterval(updateCooldownUI, 1000);
+updateCooldownUI();
 
 function showMsg(text, cls='hint') {
   const m = document.getElementById('msg');
@@ -113,12 +104,16 @@ function showMsg(text, cls='hint') {
 document.getElementById('sForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  // Client cooldown
+  const until = Number(localStorage.getItem(CD_KEY) || 0);
+  if (Date.now() < until){
+    return showMsg('⏳ Cooldown active. Please wait a bit before submitting again.', 'hint err');
+  }
+
   const data = Object.fromEntries(new FormData(e.target).entries());
 
-  // Honeypot check
-  if (data.website) {
-    return showMsg('Submission failed (bot detected).', 'hint err');
-  }
+  // Honeypot
+  if (data.website) return showMsg('Submission failed (bot detected).', 'hint err');
 
   // Basic validation
   if ((data.title||'').trim().length < 4 || (data.details||'').trim().length < 20) {
@@ -126,9 +121,10 @@ document.getElementById('sForm').addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch(API_URL, {
+    await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors', // fire-and-forget; response is opaque
       body: JSON.stringify({
         title: data.title.trim(),
         details: data.details.trim(),
@@ -138,46 +134,18 @@ document.getElementById('sForm').addEventListener('submit', async (e) => {
       })
     });
 
-    if (res.status === 429) {
-      const { retryAfter } = await res.json().catch(()=>({retryAfter: undefined}));
-      const mins = retryAfter ? Math.ceil(retryAfter / 60) : 10;
-      showMsg(`⏳ You’re on cooldown. Try again in about ${mins} minutes.`, 'hint err');
-      startCooldownDisplay(retryAfter || 600);
-      return;
-    }
+    // We can't read the response in no-cors mode.
+    // Assume success and start local cooldown.
+    localStorage.setItem(CD_KEY, String(Date.now() + CD_MS));
+    updateCooldownUI();
 
-    if (!res.ok) {
-      showMsg('Failed to send. Please try again later.', 'hint err');
-      return;
-    }
-
-    showMsg('✅ Sent! Thanks for the suggestion.', 'hint ok');
+    showMsg('✅ Sent! (CORS disabled, response not readable)', 'hint ok');
     e.target.reset();
-    startCooldownDisplay(600); // 10 minutes
   } catch (err) {
     console.error(err);
-    showMsg('Network error. Please try again.', 'hint err');
+    showMsg('❌ Failed to send. Please try again.', 'hint err');
   }
 });
-
-// Cooldown countdown UI
-let cdTimer;
-function startCooldownDisplay(seconds) {
-  clearInterval(cdTimer);
-  const cdPill = document.getElementById('cdPill');
-  let remaining = seconds;
-  cdTimer = setInterval(() => {
-    if (remaining <= 0) {
-      clearInterval(cdTimer);
-      cdPill.textContent = 'No cooldown';
-      return;
-    }
-    const m = String(Math.floor(remaining / 60)).padStart(2,'0');
-    const s = String(remaining % 60).padStart(2,'0');
-    cdPill.textContent = `Cooldown ${m}:${s}`;
-    remaining--;
-  }, 1000);
-}
 </script>
 </body>
 </html>
