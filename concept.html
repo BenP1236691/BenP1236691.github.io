@@ -54,8 +54,7 @@
       <h1 class="title">Bounty Pools for Shared AI Resources</h1>
       <p class="sub">A requester posts a bounty and a goal epoch. Contributors share resources (data, evals, labeling, compute). After the epoch closes, payouts are split <strong>pro‑rata by epoch usage</strong>. Platform fee: <strong>1.5%</strong>.</p>
       <div class="cta-row">
-        <a class="btn primary" href="submit.html">Leave a Suggestion</a>
-        <a class="btn" href="#calculator">Open Payout Calculator</a>
+        <a href=mailto:“benjamin20230724@gmail.com”>Leave A suggestion</a>
       </div>
     </div>
   </header>
@@ -67,11 +66,10 @@
         <a href="#overview">Overview</a>
         <a href="#how">How it Works</a>
         <a href="#payouts">Epoch‑Share Payouts</a>
-        <a href="#calculator">Calculator</a>
         <a href="#roles">Roles & Rules</a>
-        <a href="#integrity">Integrity & Anti‑gaming</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#faq">FAQ</a>
+        
       </aside>
 
       <section>
@@ -108,108 +106,46 @@
           </div>
         </article>
 
-        <article id="calculator" class="card">
-          <h2>Payout Calculator</h2>
-          <p>Enter bounty and contributor credits to preview payouts (1.5% fee applied).</p>
-          <div class="flex">
-            <div class="half">
-              <label>Bounty (USD)</label>
-              <input id="bounty" type="number" min="0" step="0.01" value="10000" style="width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--ring);background:#0b1222;color:var(--text)">
-              <label style="margin-top:.6rem">Credits (comma‑separated)</label>
-              <input id="credits" placeholder="e.g., 99,1,10" value="99,1" style="width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--ring);background:#0b1222;color:var(--text)">
-              <div class="cta-row"><button class="btn primary" id="calcBtn" type="button">Calculate</button></div>
-            </div>
-            <div class="half">
-              <div id="calcOut" style="font-family:ui-monospace,monospace;white-space:pre-wrap"></div>
-            </div>
-          </div>
-        </article>
+        
 
         <article id="roles" class="card">
           <h2>Roles & Rules</h2>
           <ul>
-            <li><strong>Requester:</strong> funds bounty, defines scope, epoch end, licenses, and refund policy.</li>
-            <li><strong>Contributors:</strong> register resources (hashes, provenance, license) before usage window.</li>
-            <li><strong>Trainer/Oracle:</strong> signs per‑epoch usage logs and provides reproducible configs.</li>
+            <li><strong>Requester:</strong> funds bounty, Gives Model, Set Epoch goal</li>
+            <li><strong>Contributors:</strong> Gives Resources to Train Model</li>
             <li><strong>Platform:</strong> escrows funds, computes credits, applies the 1.5% fee, and pays out.</li>
           </ul>
         </article>
 
-        <article id="integrity" class="card">
-          <h2>Integrity & Anti‑gaming</h2>
-          <ul>
-            <li><strong>Usage proofs:</strong> signed per‑epoch manifests: <span class="kbd">epoch, resource_id, usage_share</span>.</li>
-            <li><strong>Dedup & provenance:</strong> content hashes, near‑dup checks, data cards, license verification.</li>
-            <li><strong>Poisoning safeguards:</strong> canary evals, regression penalties, and appeal flow.</li>
-            <li><strong>Sybil guard:</strong> pre‑registration window; optional small stake or identity attestations.</li>
-          </ul>
-        </article>
-
+        
         <article id="roadmap" class="card">
           <h2>Roadmap</h2>
           <ul>
-            <li><strong>Phase 1:</strong> Manual oracle + signed usage logs, basic settlement UI, CSV export.</li>
-            <li><strong>Phase 2:</strong> Self‑serve bounty posting, contributor registry, automated usage ingestion.</li>
-            <li><strong>Phase 3:</strong> On‑chain escrow option, zk‑proofs of usage, composable pool aggregation.</li>
+            <li><strong>Phase 1:</strong> Self‑serve bounty posting, contributor Database, automated usage ingestion.</li>
+            <li><strong>Phase 2:</strong> Payout depending on user contribution.</li>
           </ul>
-          <div class="cta-row">
-            <a class="btn primary" href="submit.html">Suggest a feature</a>
-            <a class="btn" href="#faq">Read FAQ</a>
-          </div>
         </article>
 
         <article id="faq" class="card">
           <h2>FAQ</h2>
-          <p><strong>What if no resources are used?</strong> If total credits E=0, we follow the bounty's refund policy (typically full refund to requester).</p>
-          <p><strong>Can credits be fractional?</strong> Yes—usage within an epoch can be fractional credits based on sampling or time share.</p>
+          <p><strong>What if The goal isn't fulfilled?</strong> If total credits E=0, I will fully refund. Or a percentage is taken from the bounty (Depending on the goal percentage) and split.</p>
+          <p><strong>Can credits be fractional?</strong> Yes—usage within an epoch can Depend on contribution/time share.</p>
           <p><strong>How is the 1.5% fee applied?</strong> Fee is taken from the gross bounty; remaining net is split by credits.</p>
-          <p><strong>Do you store datasets?</strong> Prefer references (hashes, storage links) with provenance and licenses.</p>
+          <p><strong>When Will this release?</strong> I want to have a fully functional system that works, then get the domain and release it, so maybe a long time, maybe a short time.</p>
+          <p><strong>How can I support?</strong> I might launch a Kickstarter, but you can leave a <a href=mailto:“benjamin20230724@gmail.com”>suggestion</a> on what I should do!</p>
+        </article>
+        <article>
+          <p>Oh my god it took so long to sound professional, I'm Tired</p>
         </article>
       </section>
     </div>
   </main>
-
-  <footer>
-    <div class="wrap">
-      <small>© <span id="year"></span> Your Org • Concept</small>
-    </div>
-  </footer>
+<!-->Oh my god what is wrong with the calc.<!-->
+ 
+<!-->Thats it im deleting it<!-->
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    function computePayouts(bounty, credits, feePct = 0.015){
-      const B = Number(bounty||0);
-      const fee = +(B * feePct).toFixed(2);
-      const net = +(B - fee).toFixed(2);
-      const arr = credits.filter(n=>n>0);
-      const E = arr.reduce((s,x)=>s+x,0);
-      if (!E) return {fee, net, rows:[], note:'E=0 (no credits).'};
-      const raw = arr.map(e=>({e, amount: net*(e/E)}));
-      const rounded = raw.map(x=>({e:x.e, amount: Math.floor(x.amount*100)/100, frac: x.amount - Math.floor(x.amount*100)/100 }));
-      let diffCents = Math.round(net*100) - rounded.reduce((s,x)=>s+Math.round(x.amount*100),0);
-      const order = [...rounded].map((x,i)=>({i,frac:x.frac})).sort((a,b)=>b.frac-a.frac);
-      for(let k=0;k<diffCents;k++){ const i = order[k%order.length].i; rounded[i].amount = +(rounded[i].amount + 0.01).toFixed(2); }
-      return {fee, net, rows: rounded.map(x=>({e:x.e, amount:x.amount}))};
-    }
-
-    const $ = (id)=>document.getElementById(id);
-    $('calcBtn').addEventListener('click', ()=>{
-      const bounty = Number($('bounty').value||0);
-      const credits = String($('credits').value||'').split(',').map(s=>Number(s.trim())).filter(n=>!Number.isNaN(n)&&n>=0);
-      const {fee, net, rows, note} = computePayouts(bounty, credits);
-      let out = `Bounty: $${bounty.toFixed(2)}\nFee (1.5%): $${fee.toFixed(2)}\nNet: $${net.toFixed(2)}\n`;
-      if(note) out += `\nNote: ${note}\n`;
-      if(rows.length){
-        const E = rows.reduce((s,r)=>s+r.e,0);
-        out += `\nCredits total E=${E}`;
-        rows.forEach((r,idx)=>{
-          const share = E? (r.e/E*100).toFixed(4):'0.0000';
-          out += `\nContributor ${idx+1}: e=${r.e}  share=${share}%  payout=$${r.amount.toFixed(2)}`;
-        });
-      }
-      $('calcOut').textContent = out;
-    });
   </script>
 </body>
 </html>
