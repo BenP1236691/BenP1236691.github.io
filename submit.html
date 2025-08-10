@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Submit a Suggestion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 2rem;
+    }
+    form {
+      background: #fff;
+      padding: 1.5rem;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background: #4CAF50;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:disabled {
+      background: #888;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Leave a Suggestion</h1>
+<form id="suggestionForm">
+  <label for="suggestion">Your suggestion:</label>
+  <textarea id="suggestion" name="suggestion" required></textarea>
+  <button type="submit">Send</button>
+  <div class="status" id="statusMsg"></div>
+</form>
+
+<script>
+  const API_URL = "http://140.119.190.35:8040"; // Your server endpoint
+  const COOLDOWN_MINUTES = 10;
+
+  const form = document.getElementById("suggestionForm");
+  const statusMsg = document.getElementById("statusMsg");
+
+  // Cooldown check
+  if (localStorage.getItem("lastSubmitTime")) {
+    const last = parseInt(localStorage.getItem("lastSubmitTime"), 10);
+    const diff = Date.now() - last;
+    if (diff < COOLDOWN_MINUTES * 60 * 1000) {
+      disableForm();
+      statusMsg.textContent = `Please wait ${(COOLDOWN_MINUTES - Math.floor(diff / 60000))} minutes before submitting again.`;
+    }
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const suggestion = document.getElementById("suggestion").value.trim();
+    if (!suggestion) {
+      statusMsg.textContent = "Please enter a suggestion.";
+      return;
+    }
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ suggestion })
+      });
+
+      if (res.ok) {
+        localStorage.setItem("lastSubmitTime", Date.now().toString());
+        disableForm();
+        statusMsg.textContent = "Thank you! Your suggestion has been sent.";
+      } else {
+        statusMsg.textContent = "Server error. Please try again later.";
+      }
+    } catch (err) {
+      console.error(err);
+      statusMsg.textContent = "Error sending suggestion.";
+    }
+  });
+
+  function disableForm() {
+    form.querySelector("textarea").disabled = true;
+    form.querySelector("button").disabled = true;
+  }
+</script>
+
+</body>
+</html>

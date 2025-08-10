@@ -2,3 +2,4 @@ server.js
 wrangler/
 .wrangler/
 wrangler.jsonc
+server/
